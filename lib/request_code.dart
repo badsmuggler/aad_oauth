@@ -11,6 +11,8 @@ class RequestCode {
   final StreamController<String?> _onCodeListener = StreamController();
   final Config _config;
   final AuthorizationRequest _authorizationRequest;
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
 
   late Stream<String?> _onCodeStream;
 
@@ -53,7 +55,22 @@ class RequestCode {
     var webView = WebView(
       initialUrl: initialURL,
       javascriptMode: JavascriptMode.unrestricted,
-      onPageFinished: (url) => _geturlData(url),
+      onWebViewCreated: (WebViewController webViewController) {
+        _controller.complete(webViewController);
+      },
+      onProgress: (int progress) {
+        print("WebView is loading (progress : $progress%)");
+      },
+      onPageStarted: (String url) {
+        print('Page started loading: $url');
+      },
+      onPageFinished: (String url) {
+        _checkForCode(url);
+      },
+      navigationDelegate: (NavigationRequest request) {
+        _checkForError(request.url);
+        return NavigationDecision.navigate;
+      },
     );
 
     await Navigator.of(_config.context!).push(
@@ -65,7 +82,7 @@ class RequestCode {
     );
   }
 
-  void _geturlData(String _url) {
+  void _checkForError(String _url) {
     var url = _url.replaceFirst('#', '?');
     var uri = Uri.parse(url);
 
@@ -75,6 +92,11 @@ class RequestCode {
         Exception('Access denied or authentation canceled.'),
       );
     }
+  }
+
+  void _checkForCode(String _url) {
+    var url = _url.replaceFirst('#', '?');
+    var uri = Uri.parse(url);
 
     var token = uri.queryParameters['code'];
     if (token != null) {
