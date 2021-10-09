@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'model/config.dart';
 import 'request/token_refresh_request.dart';
@@ -22,6 +23,10 @@ class RequestToken {
         TokenRefreshRequestDetails(config, refreshToken);
     return await _sendTokenRequest(_tokenRefreshRequest.url,
         _tokenRefreshRequest.params, _tokenRefreshRequest.headers);
+  }
+
+  void setContext(BuildContext context) {
+    config.context = context;
   }
 
   Future<Token> _sendTokenRequest(String url, Map<String, String> params,

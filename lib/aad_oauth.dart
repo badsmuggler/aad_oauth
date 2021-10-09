@@ -11,24 +11,30 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Authenticates a user with Azure Active Directory using OAuth2.0.
 class AadOAuth {
-  final Config _config;
-  final AuthStorage _authStorage;
-  final RequestCode _requestCode;
-  final RequestToken _requestToken;
+  final Config config;
+  final AuthStorage authStorage;
+  final RequestCode requestCode;
+  final RequestToken requestToken;
 
   /// Instantiating AadOAuth authentication.
   /// [config] Parameters according to official Microsoft Documentation.
   AadOAuth(Config config)
-      : _config = config,
-        _authStorage = AuthStorage(tokenIdentifier: config.tokenIdentifier),
-        _requestCode = RequestCode(config),
-        _requestToken = RequestToken(config);
+      : config = config,
+        authStorage = AuthStorage(tokenIdentifier: config.tokenIdentifier),
+        requestCode = RequestCode(config),
+        requestToken = RequestToken(config);
+
+  void setContext(BuildContext context) {
+    config.context = context;
+    requestToken.setContext(context);
+    requestCode.setContext(context);
+  }
 
   /// Set [screenSize] of webview.
   void setWebViewScreenSize(Rect screenSize) {
-    if (screenSize != _config.screenSize) {
-      _config.screenSize = screenSize;
-      _requestCode.sizeChanged();
+    if (screenSize != config.screenSize) {
+      config.screenSize = screenSize;
+      // requestCode.sizeChanged();
     }
   }
 
@@ -56,16 +62,16 @@ class AadOAuth {
 
   /// Retrieve cached OAuth Access Token.
   Future<String?> getAccessToken() async =>
-      (await _authStorage.loadTokenFromCache()).accessToken;
+      (await authStorage.loadTokenFromCache()).accessToken;
 
   /// Retrieve cached OAuth Id Token.
   Future<String?> getIdToken() async =>
-      (await _authStorage.loadTokenFromCache()).idToken;
+      (await authStorage.loadTokenFromCache()).idToken;
 
   /// Perform Azure AD logout.
   Future<void> logout() async {
-    await _authStorage.clear();
-    await _requestCode.clearCookies();
+    await authStorage.clear();
+    // await requestCode.clearCookies();
   }
 
   /// Authorize user via refresh token or web gui if necessary.
@@ -76,7 +82,7 @@ class AadOAuth {
   /// will be returned, as long as we deem it still valid. In the event that
   /// both access and refresh tokens are invalid, the web gui will be used.
   Future<Token> _authorization({bool refreshIfAvailable = false}) async {
-    var token = await _authStorage.loadTokenFromCache();
+    var token = await authStorage.loadTokenFromCache();
 
     if (!refreshIfAvailable) {
       if (token.hasValidAccessToken()) {
@@ -85,24 +91,24 @@ class AadOAuth {
     }
 
     if (token.hasRefreshToken()) {
-      token = await _requestToken.requestRefreshToken(token.refreshToken!);
+      token = await requestToken.requestRefreshToken(token.refreshToken!);
     }
 
     if (!token.hasValidAccessToken()) {
       token = await _performFullAuthFlow();
     }
 
-    await _authStorage.saveTokenToCache(token);
+    await authStorage.saveTokenToCache(token);
     return token;
   }
 
   /// Authorize user via refresh token or web gui if necessary.
   Future<Token> _performFullAuthFlow() async {
-    var code = await _requestCode.requestCode();
+    var code = await requestCode.requestCode();
     if (code == null) {
       throw Exception('Access denied or authentication canceled.');
     }
-    return await _requestToken.requestToken(code);
+    return await requestToken.requestToken(code);
   }
 
   Future<void> _removeOldTokenOnFirstLogin() async {

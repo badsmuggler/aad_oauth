@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:aad_oauth/aad_oauth.dart';
 import 'package:aad_oauth/model/config.dart';
 import 'package:flutter/material.dart';
@@ -27,17 +29,26 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   static final Config config = Config(
-    tenant: 'YOUR_TENANT_ID',
-    clientId: 'YOUR_CLIENT_ID',
-    scope: 'openid profile offline_access',
-    redirectUri: 'https://login.live.com/oauth20_desktop.srf',
+    tenant: 'dd3d0f6e-f570-4c5d-9d31-4a957d9fce24',
+    clientId: 'dbe540d3-117a-4169-b6e1-a8f3937bb92c',
+    scope: 'user.read openid profile offline_access',
+    redirectUri: Platform.isIOS
+        ? 'msauth.org.cefic.news://auth'
+        : 'msauth://org.cefic.news/QRrhDGiRyVl%2BDeP%2FYso%2BMeCI2Wc%3D',
   );
-  final AadOAuth oauth = AadOAuth(config);
+  late AadOAuth oauth;
+
+  @override
+  void initState() {
+    super.initState();
+    oauth = AadOAuth(config);
+    oauth.setContext(context);
+  }
 
   @override
   Widget build(BuildContext context) {
     // adjust window size for browser login
-    oauth.setWebViewScreenSizeFromMedia(MediaQuery.of(context));
+    // oauth.setWebViewScreenSizeFromMedia(MediaQuery.of(context));
 
     return Scaffold(
       appBar: AppBar(

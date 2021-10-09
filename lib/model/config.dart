@@ -6,6 +6,8 @@ import 'package:flutter/widgets.dart';
 ///
 /// DartDocs of parameters are mostly from those pages.
 class Config {
+  BuildContext? context;
+
   /// Azure AD authorization URL.
   final String authorizationUrl;
 
@@ -118,6 +120,7 @@ class Config {
       this.responseType = 'code',
       required this.redirectUri,
       required this.scope,
+      this.context,
       this.responseMode,
       this.state,
       this.prompt,
