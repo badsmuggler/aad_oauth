@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart'
-    show BuildContext, MaterialPageRoute, Navigator, SafeArea, Scaffold;
+    show BuildContext, Colors, MaterialPageRoute, Navigator, SafeArea, Scaffold;
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'model/config.dart';
@@ -76,7 +76,10 @@ class RequestCode {
     await Navigator.of(_config.context!).push(
       MaterialPageRoute(
         builder: (context) => Scaffold(
-          body: SafeArea(child: webView),
+          backgroundColor: Colors.white,
+          body: SafeArea(
+            child: webView,
+          ),
         ),
       ),
     );
