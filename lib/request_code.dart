@@ -62,13 +62,14 @@ class RequestCode {
         print("WebView is loading (progress : $progress%)");
       },
       onPageStarted: (String url) {
+        _checkForError(url);
         print('Page started loading: $url');
       },
       onPageFinished: (String url) {
+        print('Page finished loading: $url');
         _checkForCode(url);
       },
       navigationDelegate: (NavigationRequest request) {
-        _checkForError(request.url);
         return NavigationDecision.navigate;
       },
     );
