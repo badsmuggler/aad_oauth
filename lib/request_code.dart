@@ -50,25 +50,24 @@ class RequestCode {
   }
 
   Future<void> _mobileAuth(String initialURL) async {
-    var _controller = Completer<WebViewController>();
+    var controller = Completer<WebViewController>();
+
     var webView = WebView(
       initialUrl: initialURL,
       javascriptMode: JavascriptMode.unrestricted,
       onWebViewCreated: (WebViewController webViewController) {
-        _controller.complete(webViewController);
+        controller.complete(webViewController);
       },
       onProgress: (int progress) {
         print("WebView is loading (progress : $progress%)");
       },
-      onPageStarted: (String url) {
-        _checkForError(url);
-        print('Page started loading: $url');
-      },
-      onPageFinished: (String url) {
-        print('Page finished loading: $url');
-        _checkForCode(url);
-      },
       navigationDelegate: (NavigationRequest request) {
+        var url = request.url.replaceFirst('#', '?');
+        var uri = Uri.parse(url);
+
+        _checkForError(uri);
+        _checkForCode(uri);
+        print('navigation Delegate => ${request.url}');
         return NavigationDecision.navigate;
       },
     );
@@ -85,10 +84,7 @@ class RequestCode {
     );
   }
 
-  void _checkForError(String _url) {
-    var url = _url.replaceFirst('#', '?');
-    var uri = Uri.parse(url);
-
+  void _checkForError(Uri uri) {
     if (uri.queryParameters['error'] != null) {
       Navigator.of(_config.context!).pop();
       _onCodeListener.addError(
@@ -97,10 +93,7 @@ class RequestCode {
     }
   }
 
-  void _checkForCode(String _url) {
-    var url = _url.replaceFirst('#', '?');
-    var uri = Uri.parse(url);
-
+  void _checkForCode(Uri uri) {
     var token = uri.queryParameters['code'];
     if (token != null) {
       _onCodeListener.add(token);
