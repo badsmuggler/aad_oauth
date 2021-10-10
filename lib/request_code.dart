@@ -11,8 +11,6 @@ class RequestCode {
   final StreamController<String?> _onCodeListener = StreamController();
   final Config _config;
   final AuthorizationRequest _authorizationRequest;
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
 
   late Stream<String?> _onCodeStream;
 
@@ -52,6 +50,7 @@ class RequestCode {
   }
 
   Future<void> _mobileAuth(String initialURL) async {
+    var _controller = Completer<WebViewController>();
     var webView = WebView(
       initialUrl: initialURL,
       javascriptMode: JavascriptMode.unrestricted,
