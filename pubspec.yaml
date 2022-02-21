@@ -13,7 +13,11 @@ dependencies:
   flutter_secure_storage: ^4.2.0
   http: ^0.13.4
   pedantic: ^1.11.1
+<<<<<<< HEAD
   shared_preferences: ^2.0.13
+=======
+  shared_preferences: ^2.0.11
+>>>>>>> master
   webview_flutter: ^3.0.0
 
 dev_dependencies:
