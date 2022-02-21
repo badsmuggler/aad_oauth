@@ -121,7 +121,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.11"
-<<<<<<< HEAD
+
   material_color_utilities:
     dependency: transitive
     description:
@@ -129,8 +129,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.3"
-=======
->>>>>>> master
+
   meta:
     dependency: transitive
     description:
@@ -200,33 +199,24 @@ packages:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
     version: "2.0.13"
-=======
-    version: "2.0.11"
->>>>>>> master
+
   shared_preferences_android:
     dependency: transitive
     description:
       name: shared_preferences_android
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
     version: "2.0.11"
-=======
-    version: "2.0.9"
->>>>>>> master
+
   shared_preferences_ios:
     dependency: transitive
     description:
       name: shared_preferences_ios
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
     version: "2.1.0"
-=======
-    version: "2.0.8"
->>>>>>> master
+
   shared_preferences_linux:
     dependency: transitive
     description:
@@ -308,11 +298,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
     version: "0.4.8"
-=======
-    version: "0.4.3"
->>>>>>> master
   typed_data:
     dependency: transitive
     description:
@@ -340,11 +326,8 @@ packages:
       name: webview_flutter_android
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
     version: "2.8.3"
-=======
-    version: "2.8.2"
->>>>>>> master
+
   webview_flutter_platform_interface:
     dependency: transitive
     description:
