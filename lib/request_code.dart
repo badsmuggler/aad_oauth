@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart'
     show BuildContext, Colors, MaterialPageRoute, Navigator, SafeArea, Scaffold;
@@ -50,6 +51,8 @@ class RequestCode {
   }
 
   Future<void> _mobileAuth(String initialURL) async {
+    if (Platform.isAndroid) WebView.platform = AndroidWebView();
+
     var controller = Completer<WebViewController>();
 
     var webView = WebView(
