@@ -191,7 +191,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.13"
-
   shared_preferences_android:
     dependency: transitive
     description:
@@ -199,7 +198,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.11"
-
   shared_preferences_ios:
     dependency: transitive
     description:
@@ -207,7 +205,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-
   shared_preferences_linux:
     dependency: transitive
     description:
@@ -215,7 +212,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-
   shared_preferences_macos:
     dependency: transitive
     description:
@@ -244,7 +240,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-
   sky_engine:
     dependency: transitive
     description: flutter

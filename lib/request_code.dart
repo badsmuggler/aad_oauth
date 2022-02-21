@@ -51,12 +51,14 @@ class RequestCode {
   }
 
   Future<void> _mobileAuth(String initialURL) async {
-    if (Platform.isAndroid) WebView.platform = AndroidWebView();
+    print('_mobileAuth');
+    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
 
     var controller = Completer<WebViewController>();
 
     var webView = WebView(
       initialUrl: initialURL,
+      debuggingEnabled: true,
       javascriptMode: JavascriptMode.unrestricted,
       onWebViewCreated: (WebViewController webViewController) {
         controller.complete(webViewController);
